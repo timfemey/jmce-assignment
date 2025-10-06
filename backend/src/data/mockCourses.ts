@@ -1,0 +1,71 @@
+import type { Course } from "../types/courseTypes.js";
+
+export let courses: Course[] = [
+  {
+    id: 1,
+    title: "Software Engineering",
+    university: "University of Lagos",
+    duration: "4 Years",
+    location: "Lagos",
+    fees: 80000,
+    description:
+      "A comprehensive program covering algorithms, AI, and systems.",
+    entryRequirements: ["High School Diploma", "SAT/ACT Scores", "Essay"],
+    modules: [
+      "Intro to CS",
+      "Data Structures",
+      "Machine Learning",
+      "Web Development",
+    ],
+  },
+  {
+    id: 2,
+    title: "Business Administration",
+    university: "University of Benin",
+    duration: "4 Years",
+    location: "Ugbowo, Benin",
+    fees: 60000,
+    description:
+      "Prepares students for leadership roles in the business world.",
+    entryRequirements: ["Excellent academic record", "Leadership experience"],
+    modules: [
+      "Marketing",
+      "Finance",
+      "Operations Management",
+      "Business Ethics",
+    ],
+  },
+  {
+    id: 3,
+    title: "Computer Science",
+    university: "University of Benin",
+    duration: "4 Years",
+    location: "Ugbowo, Benin",
+    fees: 60000,
+    description: "Prepares students to be computer scientists",
+    entryRequirements: ["Excellent academic record", "Good in Mathematics"],
+    modules: ["Mathematics", "I.C.T", "Physics"],
+  },
+  {
+    id: 4,
+    title: "Marketing",
+    university: "University of Port Harcourt",
+    duration: "4 Years",
+    location: "Port Harcourt, Rivers State",
+    fees: 80000,
+    description: "Prepares students for marketing products and services.",
+    entryRequirements: ["Excellent in Economies / Commerce"],
+    modules: ["Marketing", "Psychology ", "Business Ethics"],
+  },
+  {
+    id: 5,
+    title: "Mechanical Engineering",
+    university: "University of Benin",
+    duration: "4 Years",
+    location: "Ugbowo, Benin",
+    fees: 80000,
+    description: "Prepares students for marketing products and services.",
+    entryRequirements: ["Excellent in Physics", "Great at Mathematics"],
+    modules: ["Thermodynamics", "Engineering Drawing", "Friction"],
+  },
+];
