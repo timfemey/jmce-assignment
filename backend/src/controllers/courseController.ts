@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
-import { courses } from "../data/mockCourses.js";
+import { courses as courseData } from "../data/mockCourses.js";
+let courses = [...courseData];
 
 export const getCourses = (req: Request, res: Response) => {
   let results = [...courses];
@@ -54,4 +55,15 @@ export const updateCourse = (req: Request, res: Response) => {
   }
   courses[index] = { ...courses[index], ...req.body };
   res.json(courses[index]);
+};
+
+export const deleteCourse = (req: Request, res: Response) => {
+  const courseId = parseInt(String(req.params.id));
+  const initialLength = courses.length;
+  courses = courses.filter((c) => c.id !== courseId);
+
+  if (courses.length === initialLength) {
+    return res.status(404).json({ message: "Course not found" });
+  }
+  res.status(200).json({ message: "Course deleted successfully" });
 };
