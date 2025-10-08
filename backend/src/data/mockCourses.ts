@@ -68,4 +68,43 @@ export let courses: Course[] = [
     entryRequirements: ["Excellent in Physics", "Great at Mathematics"],
     modules: ["Thermodynamics", "Engineering Drawing", "Friction"],
   },
+  {
+    id: 6,
+    title: "Industrial Engineering",
+    university: "University of Calabar",
+    duration: "4 Years",
+    location: "Cross River, Calabar",
+    fees: 60000,
+    description:
+      "Prepares students to enable them become an industrial engineer.",
+    entryRequirements: ["Excellent in Chemistry", "Great at Physics"],
+    modules: ["Thermodynamics", "Chemistry", "Production Processes"],
+  },
+  {
+    id: 7,
+    title: "Fishery",
+    university: "University of Minna",
+    duration: "4 Years",
+    location: "Minna",
+    fees: 50000,
+    description:
+      "Educates students on fishery processes and the science behind it",
+    entryRequirements: [
+      "Excellent in Agricultural Science",
+      "Great at Chemistry",
+    ],
+    modules: ["Rearing", "Chemistry", "Fishing"],
+  },
+  {
+    id: 8,
+    title: "Adult Education",
+    university: "University of Lagos",
+    duration: "4 Years",
+    location: "Lagos",
+    fees: 75000,
+    description:
+      "Prepare students to become professional Teachers specialized in Adult Education",
+    entryRequirements: ["Excellent in English", "Great at Social Studies"],
+    modules: ["Educational Development", "Psychology"],
+  },
 ];
