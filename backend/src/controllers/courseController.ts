@@ -15,7 +15,9 @@ export const getCourses = (req: Request, res: Response) => {
 
   // Filter functionality
   if (university) {
-    results = results.filter((course) => course.university === university);
+    results = results.filter((course) =>
+      course.university.toLowerCase().includes(String(university).toLowerCase())
+    );
   }
 
   // Pagination logic
