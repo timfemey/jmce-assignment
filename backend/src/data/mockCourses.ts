@@ -107,4 +107,217 @@ export let courses: Course[] = [
     entryRequirements: ["Excellent in English", "Great at Social Studies"],
     modules: ["Educational Development", "Psychology"],
   },
+  {
+    id: 9,
+    title: "Medicine and Surgery",
+    university: "University of Ibadan (UI)",
+    duration: "6 Years",
+    location: "Ibadan, Oyo State",
+    fees: 150000,
+    description:
+      "The prestigious program to train medical doctors, focusing on human health and disease treatment.",
+    entryRequirements: [
+      "Excellent academic record",
+      "High scores in UTME (Use of English, Biology, Chemistry, Physics)",
+    ],
+    modules: ["Anatomy", "Physiology", "Pathology", "Surgery"],
+  },
+  {
+    id: 10,
+    title: "Petroleum Engineering",
+    university: "Federal University of Petroleum Resources Effurun (FUPRE)",
+    duration: "5 Years",
+    location: "Effurun, Delta State",
+    fees: 100000,
+    description:
+      "Focuses on the exploration, extraction, and production of oil and gas resources.",
+    entryRequirements: ["Excellent in Mathematics, Physics, and Chemistry"],
+    modules: [
+      "Reservoir Engineering",
+      "Drilling Engineering",
+      "Petroleum Geology",
+    ],
+  },
+  {
+    id: 11,
+    title: "Law",
+    university: "Obafemi Awolowo University (OAU)",
+    duration: "5 Years",
+    location: "Ile-Ife, Osun State",
+    fees: 70000,
+    description:
+      "Prepares students for legal practice and the application of justice and rule of law.",
+    entryRequirements: [
+      "Excellent academic record",
+      "Strong verbal and writing skills",
+    ],
+    modules: [
+      "Constitutional Law",
+      "Criminal Law",
+      "Law of Contract",
+      "Jurisprudence",
+    ],
+  },
+  {
+    id: 12,
+    title: "Cyber Security",
+    university: "Federal University of Technology, Akure (FUTA)",
+    duration: "4 Years",
+    location: "Akure, Ondo State",
+    fees: 90000,
+    description:
+      "A modern program focusing on protecting computer systems and networks from digital threats and attacks.",
+    entryRequirements: [
+      "Great at Mathematics",
+      "Excellent in Computer Science",
+    ],
+    modules: [
+      "Network Security",
+      "Ethical Hacking",
+      "Digital Forensics",
+      "Cryptography",
+    ],
+  },
+  {
+    id: 13,
+    title: "Accounting",
+    university: "University of Ilorin (UNILORIN)",
+    duration: "4 Years",
+    location: "Ilorin, Kwara State",
+    fees: 65000,
+    description:
+      "Covers financial management, auditing, taxation, and corporate reporting.",
+    entryRequirements: [
+      "Excellent in Mathematics and Economics",
+      "Good in Commerce",
+    ],
+    modules: [
+      "Financial Accounting",
+      "Cost Accounting",
+      "Taxation",
+      "Auditing",
+    ],
+  },
+  {
+    id: 14,
+    title: "Nursing Science",
+    university: "Ahmadu Bello University (ABU)",
+    duration: "5 Years",
+    location: "Zaria, Kaduna State",
+    fees: 75000,
+    description:
+      "Trains professional nurses to provide compassionate and skilled patient care.",
+    entryRequirements: ["Excellent in Biology, Chemistry, and Physics"],
+    modules: [
+      "Fundamentals of Nursing",
+      "Maternal Health",
+      "Community Health",
+      "Pharmacology for Nurses",
+    ],
+  },
+  {
+    id: 15,
+    title: "Mass Communication",
+    university: "University of Nigeria, Nsukka (UNN)",
+    duration: "4 Years",
+    location: "Nsukka, Enugu State",
+    fees: 70000,
+    description:
+      "A versatile program covering journalism, broadcasting, advertising, and public relations.",
+    entryRequirements: ["Strong command of English", "Good in Literature"],
+    modules: [
+      "News Writing",
+      "Media Law and Ethics",
+      "Broadcast Production",
+      "PR Principles",
+    ],
+  },
+  {
+    id: 16,
+    title: "Electrical Engineering",
+    university: "Federal University of Technology, Owerri (FUTO)",
+    duration: "5 Years",
+    location: "Owerri, Imo State",
+    fees: 85000,
+    description:
+      "Deals with the study and application of electricity, electronics, and electromagnetism.",
+    entryRequirements: ["Excellent in Mathematics, Physics, and Chemistry"],
+    modules: [
+      "Circuit Theory",
+      "Power Systems",
+      "Electronics",
+      "Telecommunications",
+    ],
+  },
+  {
+    id: 17,
+    title: "Data Science",
+    university: "University of Lagos (UNILAG)",
+    duration: "4 Years",
+    location: "Lagos",
+    fees: 95000,
+    description:
+      "A contemporary program focused on extracting knowledge and insights from structured and unstructured data.",
+    entryRequirements: [
+      "Excellent in Mathematics and Statistics",
+      "Programming skills",
+    ],
+    modules: [
+      "Statistical Methods",
+      "Big Data Analytics",
+      "Machine Learning",
+      "Data Visualisation",
+    ],
+  },
+  {
+    id: 18,
+    title: "Architecture",
+    university: "University of Jos (UNIJOS)",
+    duration: "6 Years",
+    location: "Jos, Plateau State",
+    fees: 75000,
+    description:
+      "Focuses on the art and science of designing and constructing buildings and structures.",
+    entryRequirements: [
+      "Excellent in Fine Arts or Technical Drawing",
+      "Good in Physics",
+    ],
+    modules: [
+      "Architectural Design Studio",
+      "Building Technology",
+      "History of Architecture",
+    ],
+  },
+  {
+    id: 19,
+    title: "Public Health",
+    university: "University of Port Harcourt (UNIPORT)",
+    duration: "4 Years",
+    location: "Port Harcourt, Rivers State",
+    fees: 70000,
+    description:
+      "Concentrates on disease prevention, health promotion, and community health policies.",
+    entryRequirements: ["Excellent in Biology and Chemistry"],
+    modules: [
+      "Epidemiology",
+      "Health Education",
+      "Environmental Health",
+      "Biostatistics",
+    ],
+  },
+  {
+    id: 20,
+    title: "Agricultural Science",
+    university: "Federal University of Agriculture, Abeokuta (FUNAAB)",
+    duration: "5 Years",
+    location: "Abeokuta, Ogun State",
+    fees: 60000,
+    description:
+      "A core program for food security, covering crop science, animal production, and agribusiness.",
+    entryRequirements: [
+      "Excellent in Agricultural Science or Biology",
+      "Good in Chemistry",
+    ],
+    modules: ["Crop Production", "Animal Husbandry", "Agribusiness Management"],
+  },
 ];
