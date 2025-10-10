@@ -181,3 +181,23 @@ export const getUniversities = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+export const getDepartmentsByUniversity = async (
+  req: Request,
+  res: Response
+) => {
+  const { universityId } = req.params;
+  if (!universityId) {
+    res.status(401).json({ message: "No University ID received" });
+  }
+  try {
+    const result = await pool.query(
+      "SELECT id, name FROM departments WHERE university_id = $1 ORDER BY name ASC",
+      [universityId]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
