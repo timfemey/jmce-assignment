@@ -1,71 +1,183 @@
 import type { Request, Response } from "express";
-import { courses as courseData } from "../data/mockCourses.js";
-let courses = [...courseData];
+import pool from "../config/db.js";
 
-export const getCourses = (req: Request, res: Response) => {
-  let results = [...courses];
-  const { search, university, page = 1, limit = 10 } = req.query;
+export const getCourses = async (req: Request, res: Response) => {
+  const { search, duration, mode, universityId } = req.query;
+  let query = `
+        SELECT c.*, d.name as department_name, u.name as university_name
+        FROM courses c
+        JOIN departments d ON c.department_id = d.id
+        JOIN universities u ON d.university_id = u.id
+        WHERE 1=1
+    `;
+  const params = [];
+  let paramIndex = 1;
 
-  // Search functionality
   if (search) {
-    results = results.filter((course) =>
-      course.title.toLowerCase().includes(String(search).toLowerCase())
+    query += ` AND c.title ILIKE $${paramIndex++}`;
+    params.push(`%${search}%`);
+  }
+  if (duration) {
+    query += ` AND c.duration = $${paramIndex++}`;
+    params.push(duration);
+  }
+  if (mode) {
+    query += ` AND c.mode_of_study = $${paramIndex++}`;
+    params.push(mode);
+  }
+
+  if (universityId) {
+    query += ` AND u.id = $${paramIndex++}`;
+    params.push(universityId);
+  }
+
+  try {
+    const result = await pool.query(query, params);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const getCourseById = async (req: Request, res: Response) => {
+  const query = `
+        SELECT c.*, d.name as department_name, u.name as university_name
+        FROM courses c
+        JOIN departments d ON c.department_id = d.id
+        JOIN universities u ON d.university_id = u.id
+        WHERE c.id = $1
+    `;
+  try {
+    const result = await pool.query(query, [req.params.id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const addCourse = async (req: Request, res: Response) => {
+  const {
+    title,
+    duration,
+    mode_of_study,
+    description,
+    fees_uk,
+    fees_international,
+    entry_requirements,
+    modules,
+    department_id,
+  } = req.body;
+
+  const query = `
+        INSERT INTO courses 
+        (title, duration, mode_of_study, description, fees_uk, fees_international, entry_requirements, modules, department_id) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+        RETURNING *;
+    `;
+  const values = [
+    title,
+    duration,
+    mode_of_study,
+    description,
+    fees_uk,
+    fees_international,
+    entry_requirements,
+    modules,
+    department_id,
+  ];
+
+  try {
+    const result = await pool.query(query, values);
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const updateCourse = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!id) {
+    res.status(401).json({ message: "No Course ID received" });
+  }
+  const {
+    title,
+    duration,
+    mode_of_study,
+    description,
+    fees_uk,
+    fees_international,
+    entry_requirements,
+    modules,
+    department_id,
+  } = req.body;
+
+  const query = `
+        UPDATE courses 
+        SET title = $1, duration = $2, mode_of_study = $3, description = $4, fees_uk = $5, 
+        fees_international = $6, entry_requirements = $7, modules = $8, department_id = $9
+        WHERE id = $10
+        RETURNING *;
+    `;
+  const values = [
+    title,
+    duration,
+    mode_of_study,
+    description,
+    fees_uk,
+    fees_international,
+    entry_requirements,
+    modules,
+    department_id,
+    id,
+  ];
+
+  try {
+    const result = await pool.query(query, values);
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const deleteCourse = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  if (!id) {
+    res.status(401).json({ message: "No Course ID received" });
+  }
+
+  const query = "DELETE FROM courses WHERE id = $1;";
+
+  try {
+    const result = await pool.query(query, [id]);
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+    res.status(200).json({ message: "Course deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const getUniversities = async (req: Request, res: Response) => {
+  try {
+    const result = await pool.query(
+      "SELECT id, name FROM universities ORDER BY name ASC"
     );
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
   }
-
-  // Filter functionality
-  if (university) {
-    results = results.filter((course) =>
-      course.university.toLowerCase().includes(String(university).toLowerCase())
-    );
-  }
-
-  // Pagination logic
-  const pageNum = Number(page);
-  const limitNum = Number(limit);
-  const startIndex = (pageNum - 1) * limitNum;
-  const endIndex = pageNum * limitNum;
-  const paginatedResults = results.slice(startIndex, endIndex);
-
-  res.json({
-    totalPages: Math.ceil(results.length / limitNum),
-    currentPage: pageNum,
-    courses: paginatedResults,
-  });
-};
-
-export const getCourseById = (req: Request, res: Response) => {
-  const course = courses.find((c) => c.id === parseInt(String(req.params.id)));
-  if (!course) {
-    return res.status(404).json({ message: "Course not found" });
-  }
-  res.json(course);
-};
-
-export const addCourse = (req: Request, res: Response) => {
-  const newCourse = { id: courses.length + 1, ...req.body };
-  courses.push(newCourse);
-  res.status(201).json(newCourse);
-};
-
-export const updateCourse = (req: Request, res: Response) => {
-  const index = courses.findIndex(
-    (c) => c.id === parseInt(String(req.params.id))
-  );
-  if (index === -1) {
-    return res.status(404).json({ message: "Course not found" });
-  }
-  courses[index] = { ...courses[index], ...req.body };
-  res.json(courses[index]);
-};
-
-export const deleteCourse = (req: Request, res: Response) => {
-  const courseId = parseInt(String(req.params.id));
-  const initialLength = courses.length;
-  courses = courses.filter((c) => c.id !== courseId);
-
-  if (courses.length === initialLength) {
-    return res.status(404).json({ message: "Course not found" });
-  }
-  res.status(200).json({ message: "Course deleted successfully" });
 };
