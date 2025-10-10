@@ -42,7 +42,7 @@ export const getCourses = async (req: Request, res: Response) => {
 
 export const getCourseById = async (req: Request, res: Response) => {
   const query = `
-        SELECT c.*, d.name as department_name, u.name as university_name
+        SELECT c.*, d.name as department_name, u.name as university_name, u.id as university_id
         FROM courses c
         JOIN departments d ON c.department_id = d.id
         JOIN universities u ON d.university_id = u.id
