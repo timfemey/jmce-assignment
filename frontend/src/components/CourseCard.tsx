@@ -2,79 +2,75 @@ import {
   Card,
   CardContent,
   Typography,
-  Button,
   Box,
   Chip,
-  Stack,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import SchoolIcon from "@mui/icons-material/School";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { Course } from "../types/courseTypes";
+import { Link } from "react-router-dom";
 
 interface Props {
   course: Course;
+  onCompareChange: (id: number, isSelected: boolean) => void;
+  isCompareSelected: boolean;
+  isCompareDisabled: boolean;
 }
 
-const CourseCard = ({ course }: Props) => (
-  <Card
-    sx={{
-      height: "100%",
-      width: "80dvw",
-      display: "flex",
-      flexDirection: "column",
-    }}
-  >
-    <CardContent sx={{ flexGrow: 1 }}>
-      <Chip
-        label={course.university}
-        color="primary"
-        size="small"
-        sx={{ mb: 1 }}
-      />
-      <Typography gutterBottom variant="h5" component="div">
-        {course.title}
-      </Typography>
-      <Stack
-        direction="row"
-        spacing={1}
-        alignItems="center"
-        color="text.secondary"
-        sx={{ my: 2 }}
-      >
-        <LocationOnIcon fontSize="small" />{" "}
-        <Typography variant="body2">{course.location}</Typography>
-      </Stack>
-      <Stack
-        direction="row"
-        spacing={1}
-        alignItems="center"
-        color="text.secondary"
-      >
-        <CalendarMonthIcon fontSize="small" />{" "}
-        <Typography variant="body2">{course.duration}</Typography>
-      </Stack>
-    </CardContent>
-    <Box
-      sx={{
-        p: 2,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <Typography variant="h6" color="primary">
-        N{course.fees.toLocaleString()}
-      </Typography>
-      <Button
+const CourseCard = ({
+  course,
+  onCompareChange,
+  isCompareSelected,
+  isCompareDisabled,
+}: Props) => (
+  <Card sx={{ position: "relative", overflow: "visible" }}>
+    <CardContent>
+      <Box
         component={Link}
         to={`/courses/${course.id}`}
-        variant="contained"
-        size="small"
+        sx={{ textDecoration: "none", color: "inherit" }}
       >
-        Details
-      </Button>
-    </Box>
+        <Chip
+          icon={<SchoolIcon />}
+          label={course.university_name}
+          color="primary"
+          size="small"
+          sx={{ mb: 1 }}
+        />
+        <Typography variant="h6" component="div" gutterBottom>
+          {course.title}
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            color: "text.secondary",
+            my: 1,
+          }}
+        >
+          <AccessTimeIcon fontSize="small" sx={{ mr: 1 }} />
+          <Typography variant="body2">
+            {course.duration} &bull; {course.mode_of_study}
+          </Typography>
+        </Box>
+        <Typography variant="body2" color="text.secondary" noWrap>
+          Explore modules like {course.modules[0]} and more...
+        </Typography>
+      </Box>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={isCompareSelected}
+            onChange={(e) => onCompareChange(course.id, e.target.checked)}
+            disabled={isCompareDisabled && !isCompareSelected}
+          />
+        }
+        label="Compare"
+        sx={{ position: "absolute", top: 8, right: 8 }}
+      />
+    </CardContent>
   </Card>
 );
 
