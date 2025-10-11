@@ -1,22 +1,28 @@
 import { useState, useEffect } from "react";
-import { Container, CircularProgress, Typography } from "@mui/material";
+import { Container, CircularProgress, Typography, Alert } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSnackbar } from "notistack";
 import CourseForm from "../components/CourseForm";
 import { getCourseById, updateCourse } from "../services/api";
-import { CoursePayload } from "../types/courseTypes";
-import { enqueueSnackbar } from "notistack";
+import { Course, CoursePayload } from "../types/courseTypes";
 
 const EditCoursePage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [course, setCourse] = useState<CoursePayload | undefined>(undefined);
+  const { enqueueSnackbar } = useSnackbar();
+  const [course, setCourse] = useState<Course | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (id) {
       getCourseById(id)
         .then((data) => setCourse(data))
-        .catch((err) => console.error(err))
+        .catch((err) => {
+          enqueueSnackbar("Failed to fetch course details for editing", {
+            variant: "error",
+          });
+          console.error(err);
+        })
         .finally(() => setLoading(false));
     }
   }, [id]);
@@ -25,19 +31,16 @@ const EditCoursePage = () => {
     if (id) {
       try {
         await updateCourse(id, data);
-        enqueueSnackbar(`Updated Course ${id} successfully`, {
-          variant: "success",
-        });
+        enqueueSnackbar("Course updated successfully!", { variant: "success" });
         navigate("/admin");
       } catch (error) {
-        enqueueSnackbar("Failed to update course", { variant: "error" });
-        console.error("Failed to update course:", error);
+        enqueueSnackbar("Failed to update course.", { variant: "error" });
       }
     }
   };
 
   if (loading) return <CircularProgress />;
-  if (!course) return <Typography>Course not found.</Typography>;
+  if (!course) return <Alert severity="error">Course not found.</Alert>;
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
