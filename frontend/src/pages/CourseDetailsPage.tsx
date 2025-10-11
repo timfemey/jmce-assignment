@@ -13,39 +13,32 @@ import {
   Grid,
   Divider,
   Button,
+  Alert,
 } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PaidIcon from "@mui/icons-material/Paid";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { getCourseById } from "../services/api";
 import { Course } from "../types/courseTypes";
-import { enqueueSnackbar } from "notistack";
 
 const CourseDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchCourse = async () => {
-      if (id) {
-        try {
-          const data = await getCourseById(id);
-          setCourse(data);
-        } catch (error) {
-          enqueueSnackbar("Failed to fetch course details", {
-            variant: "error",
-          });
-          console.error("Failed to fetch course details:", error);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-    fetchCourse();
+    if (id) {
+      setLoading(true);
+      getCourseById(id)
+        .then((data) => setCourse(data))
+        .catch((err) => {
+          console.error("Failed to fetch course details:", err);
+          setError("Could not load course details.");
+        })
+        .finally(() => setLoading(false));
+    }
   }, [id]);
 
   if (loading)
@@ -54,12 +47,8 @@ const CourseDetailsPage = () => {
         <CircularProgress />
       </Box>
     );
-  if (!course)
-    return (
-      <Typography variant="h5" align="center" mt={5}>
-        Course not found.
-      </Typography>
-    );
+  if (error) return <Alert severity="error">{error}</Alert>;
+  if (!course) return <Alert severity="warning">Course not found.</Alert>;
 
   return (
     <Paper elevation={3} sx={{ p: { xs: 2, md: 4 } }}>
@@ -75,7 +64,7 @@ const CourseDetailsPage = () => {
         <Grid columnSpacing={{ xs: 12, md: 8 }}>
           <Chip
             icon={<SchoolIcon />}
-            label={course.university}
+            label={course.university_name}
             color="primary"
             sx={{ mb: 1 }}
           />
@@ -104,8 +93,17 @@ const CourseDetailsPage = () => {
                   <PaidIcon color="primary" />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Fees"
-                  secondary={`N${course.fees.toLocaleString()} / year`}
+                  primary="UK Fees"
+                  secondary={`£${course.fees_uk?.toLocaleString()} / year`}
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon>
+                  <PaidIcon color="primary" />
+                </ListItemIcon>
+                <ListItemText
+                  primary="International Fees"
+                  secondary={`£${course.fees_international?.toLocaleString()} / year`}
                 />
               </ListItem>
               <ListItem>
@@ -114,26 +112,15 @@ const CourseDetailsPage = () => {
                 </ListItemIcon>
                 <ListItemText primary="Duration" secondary={course.duration} />
               </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <LocationOnIcon color="primary" />
-                </ListItemIcon>
-                <ListItemText primary="Location" secondary={course.location} />
-              </ListItem>
             </List>
             <Divider sx={{ my: 2 }} />
             <Typography variant="h6" sx={{ pl: 2 }}>
               Requirements
             </Typography>
             <List dense>
-              {course.entryRequirements.map((req, index) => (
-                <ListItem key={index}>
-                  <ListItemIcon>
-                    <CheckCircleOutlineIcon fontSize="small" color="success" />
-                  </ListItemIcon>
-                  <ListItemText primary={req} />
-                </ListItem>
-              ))}
+              <ListItem>
+                <ListItemText primary={course.entry_requirements} />
+              </ListItem>
             </List>
           </Box>
         </Grid>
