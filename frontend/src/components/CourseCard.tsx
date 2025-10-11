@@ -25,7 +25,7 @@ const CourseCard = ({
   isCompareSelected,
   isCompareDisabled,
 }: Props) => (
-  <Card sx={{ position: "relative", overflow: "visible" }}>
+  <Card sx={{ position: "relative", overflow: "visible", width: "80dvw" }}>
     <CardContent>
       <Box
         component={Link}
@@ -68,7 +68,7 @@ const CourseCard = ({
           />
         }
         label="Compare"
-        sx={{ position: "absolute", top: 8, right: 8 }}
+        sx={{ position: "absolute", top: 7, right: 7 }}
       />
     </CardContent>
   </Card>

@@ -44,6 +44,7 @@ const FilterSidebar = ({ filters, onFilterChange }: Props) => {
         border: "1px solid #ddd",
         borderRadius: 2,
         height: "fit-content",
+        width: "50dvw",
       }}
     >
       <Typography variant="h6" gutterBottom>
