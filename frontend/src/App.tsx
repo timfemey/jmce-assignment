@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import MainLayout from "./layouts/MainLayout";
-import CourseListPage from "./pages/CourseListPage";
 import CourseDetailsPage from "./pages/CourseDetailsPage";
 import AdminDashboardPage from "./pages/AdminPage";
 import AddCoursePage from "./pages/AddCoursePage";
 import EditCoursePage from "./pages/EditCoursePage";
 import { SnackbarProvider } from "notistack";
+import CourseDashboardPage from "./pages/CourseDashboardPage";
+import ComparePage from "./pages/ComparePage";
 
 const theme = createTheme({
   palette: {
@@ -34,11 +35,12 @@ function App() {
         <Router>
           <Routes>
             <Route element={<MainLayout />}>
-              <Route path="/" element={<CourseListPage />} />
+              <Route path="/" element={<CourseDashboardPage />} />
               <Route path="/courses/:id" element={<CourseDetailsPage />} />
               <Route path="/admin" element={<AdminDashboardPage />} />
               <Route path="/admin/add" element={<AddCoursePage />} />
               <Route path="/admin/edit/:id" element={<EditCoursePage />} />
+              <Route path="/compare" element={<ComparePage />} />
             </Route>
           </Routes>
         </Router>
