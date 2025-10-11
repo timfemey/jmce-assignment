@@ -1,20 +1,22 @@
 import axios from "axios";
-import { Course, CoursePayload } from "../types/courseTypes";
+import {
+  Course,
+  CoursePayload,
+  Department,
+  University,
+} from "../types/courseTypes";
 
-const API_URL = "https://jmce-assignment.onrender.com/courses";
+const BASE_URL = "http://localhost:5000";
+const API_URL = BASE_URL + "/courses";
 
-export const getCourses = async (
-  page: number,
-  searchTerm: string,
-  university?: string | undefined
-) => {
-  const response = await axios.get(API_URL, {
-    params: {
-      page: page,
-      search: searchTerm,
-      university: university || undefined,
-      limit: 10,
-    },
+export const getCourses = async (filters: {
+  search?: string;
+  duration?: string;
+  mode?: string;
+  universityId?: string;
+}): Promise<Course[]> => {
+  const response = await axios.get(`${API_URL}`, {
+    params: filters,
   });
   return response.data;
 };
@@ -39,4 +41,19 @@ export const updateCourse = async (
 
 export const deleteCourse = async (id: string): Promise<void> => {
   await axios.delete(`${API_URL}/${id}`);
+};
+
+export const getUniversities = async (): Promise<University[]> => {
+  const response = await axios.get(`${BASE_URL}/universities`);
+  return response.data;
+};
+
+export const getDepartmentsByUniversity = async (
+  universityId: string
+): Promise<Department[]> => {
+  if (!universityId) return [];
+  const response = await axios.get(
+    `${BASE_URL}/universities/${universityId}/departments`
+  );
+  return response.data;
 };
