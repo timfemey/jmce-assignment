@@ -83,6 +83,11 @@ const FilterSidebar = ({ filters, onFilterChange }: Props) => {
           </MenuItem>
           <MenuItem value="1 year">1 Year</MenuItem>
           <MenuItem value="2 years">2 Years</MenuItem>
+          <MenuItem value={"3 years"}>{"3 Years"}</MenuItem>
+          <MenuItem value={"4 years"}>{"4 Years"}</MenuItem>
+          <MenuItem value={"5 years"}>{"5 Years"}</MenuItem>
+          <MenuItem value={"6 years"}>{"6 Years"}</MenuItem>
+          <MenuItem value={"7 years"}>{"7 Years"}</MenuItem>
         </Select>
       </FormControl>
 
